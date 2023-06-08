@@ -16,22 +16,20 @@ const boardNumberLookup = {
 class Game {
 	#players;
 	#board;
-	#playerTurn;
 	#noOfTurns;
 
 	constructor(players) {
 		this.#players = players;
 		this.#board = new Board(3, 3, "  ");
-		this.#playerTurn = 0;
 		this.#noOfTurns = 0;
 	}
 
 	#updateBoard(x, y) {
-		const playerIcon = this.#players[this.#playerTurn % 2].icon;
+		const playerIcon = this.#players.turn.icon;
 		const validMove = this.#board.change(x, y, playerIcon);
 
 		if (validMove) {
-			this.#playerTurn++;
+			this.#players.changeTurn();
 			this.#noOfTurns++;
 		}
 	}
@@ -44,7 +42,7 @@ class Game {
 		console.clear();
 		this.#hideCursor();
 		this.#board.render(renderer, styler);
-		renderer(`${this.#players[this.#playerTurn % 2].name}'s turn`);
+		renderer(`${this.#players.turn.name}'s turn`);
 	}
 
 	playedMove(number) {

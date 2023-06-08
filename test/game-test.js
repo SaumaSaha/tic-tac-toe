@@ -2,6 +2,7 @@ const { describe, it, beforeEach } = require("node:test");
 const { deepStrictEqual } = require("assert");
 const { Participant } = require("../src/participant");
 const { Game } = require("../src/game");
+const { Players } = require("../src/players");
 
 const createSpyFunction = () => {
 	const fn = (...args) => {
@@ -24,8 +25,8 @@ describe("Game", () => {
 		it("should not update the board if the input is not in the lookup", () => {
 			const participant1 = new Participant("Sauma", "❌");
 			const participant2 = new Participant("Bittu", "🚫");
-			// const players = new Players(participant1, participant2);
-			const game = new Game([participant1, participant2]);
+			const players = new Players(participant1, participant2);
+			const game = new Game(players);
 			game.playedMove("a");
 			game.renderScreen(spyFunction, identity);
 
@@ -44,8 +45,8 @@ describe("Game", () => {
 		it("should update the board with the player icon in the given position", () => {
 			const participant1 = new Participant("Sauma", "❌");
 			const participant2 = new Participant("Bittu", "🚫");
-			// const players = new Players(participant1, participant2);
-			const game = new Game([participant1, participant2]);
+			const players = new Players(participant1, participant2);
+			const game = new Game(players);
 			game.playedMove("1");
 			game.renderScreen(spyFunction, identity);
 
