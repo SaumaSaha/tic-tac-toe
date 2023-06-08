@@ -1,20 +1,24 @@
-const { table } = require("table");
-
 class Board {
 	#length;
 	#width;
 	#board;
+	#initialChar;
 
-	constructor(length, width) {
+	constructor(length, width, initialChar) {
 		this.#length = length;
 		this.#width = width;
+		this.#initialChar = initialChar;
 		this.#board = new Array(this.#width)
 			.fill("")
-			.map(() => new Array(this.#length).fill("  "));
+			.map(() => new Array(this.#length).fill(this.#initialChar));
+	}
+
+	#isPositionVacant(row, column) {
+		return this.#board[row][column] === this.#initialChar;
 	}
 
 	change(column, row, character) {
-		if (this.#board[row][column] === "  ") {
+		if (this.#isPositionVacant(row, column)) {
 			this.#board[row][column] = character;
 			return true;
 		}
@@ -22,8 +26,8 @@ class Board {
 		return false;
 	}
 
-	render(renderer) {
-		renderer(table(this.#board));
+	render(renderer, styler) {
+		renderer(styler(this.#board));
 	}
 }
 

@@ -1,4 +1,4 @@
-class Player {
+class Participant {
 	#name;
 	#icon;
 
@@ -20,4 +20,4 @@ class Player {
 	}
 }
 
-exports.Player = Player;
+exports.Participant = Participant;
