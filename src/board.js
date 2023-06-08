@@ -1,3 +1,5 @@
+const { table } = require("table");
+
 class Board {
 	#length;
 	#width;
@@ -8,11 +10,20 @@ class Board {
 		this.#width = width;
 		this.#board = new Array(this.#width)
 			.fill("")
-			.map(() => new Array(this.#length).fill(""));
+			.map(() => new Array(this.#length).fill("  "));
+	}
+
+	change(column, row, character) {
+		if (this.#board[row][column] === "  ") {
+			this.#board[row][column] = character;
+			return true;
+		}
+
+		return false;
 	}
 
 	render(renderer) {
-		renderer(this.#board);
+		renderer(table(this.#board));
 	}
 }
 

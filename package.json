@@ -1,0 +1,18 @@
+{
+	"name": "tic-tac-toe",
+	"version": "1.0.0",
+	"description": "Tic-Tac-Toe game",
+	"main": "main.js",
+	"directories": {
+		"test": "test"
+	},
+	"scripts": {
+		"start": "node main.js",
+		"test": "node --test"
+	},
+	"author": "Sauma",
+	"license": "ISC",
+	"dependencies": {
+		"table": "^6.8.1"
+	}
+}
