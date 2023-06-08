@@ -1,5 +1,4 @@
 const { Board } = require("./board");
-const { table } = require("table");
 
 const boardNumberLookup = {
 	1: [0, 0],
@@ -28,14 +27,20 @@ class Game {
 		const playerIcon = this.#players.turn.icon;
 		const validMove = this.#board.change(x, y, playerIcon);
 
-		if (validMove) {
-			this.#players.changeTurn();
-			this.#noOfTurns++;
+		if (!validMove) {
+			console.log("Not a valid Move");
+			return;
 		}
+		this.#players.changeTurn();
+		this.#noOfTurns++;
 	}
 
 	#hideCursor() {
 		process.stdout.write("\u001B[?25l");
+	}
+
+	areTurnsOver() {
+		return this.#noOfTurns === 9;
 	}
 
 	renderScreen(renderer, styler) {
