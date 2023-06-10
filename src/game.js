@@ -10,6 +10,7 @@ class Game {
 		this.#noOfTurns = 0;
 		this.#endState = null;
 		this.#isGameOver = null;
+		this.#validMove = true;
 	}
 
 	#areTurnsOver() {

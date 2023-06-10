@@ -26,6 +26,8 @@ class GameController {
 			this.#renderer(status, console.log, table);
 		});
 
+		const status = this.#game.status();
+		this.#renderer(status, console.log, table);
 		this.#inputController.start();
 	}
 }
