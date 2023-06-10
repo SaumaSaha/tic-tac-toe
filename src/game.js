@@ -1,59 +1,54 @@
-const { Board } = require("./board");
-
-const boardNumberLookup = {
-	1: [0, 0],
-	2: [1, 0],
-	3: [2, 0],
-	4: [0, 1],
-	5: [1, 1],
-	6: [2, 1],
-	7: [0, 2],
-	8: [1, 2],
-	9: [2, 2],
-};
-
 class Game {
 	#players;
-	#board;
 	#noOfTurns;
+	#isGameOver;
+	#endState;
+	#validMove;
 
 	constructor(players) {
 		this.#players = players;
-		this.#board = new Board(3, 3, "  ");
 		this.#noOfTurns = 0;
+		this.#endState = null;
+		this.#isGameOver = null;
 	}
 
-	#updateBoard(x, y) {
-		const playerIcon = this.#players.turn.icon;
-		const validMove = this.#board.change(x, y, playerIcon);
-
-		if (!validMove) {
-			console.log("Not a valid Move");
-			return;
-		}
-		this.#players.changeTurn();
-		this.#noOfTurns++;
-	}
-
-	#hideCursor() {
-		process.stdout.write("\u001B[?25l");
-	}
-
-	areTurnsOver() {
+	#areTurnsOver() {
 		return this.#noOfTurns === 9;
 	}
 
-	renderScreen(renderer, styler) {
-		console.clear();
-		this.#hideCursor();
-		this.#board.render(renderer, styler);
-		renderer(`${this.#players.turn.name}'s turn`);
+	status() {
+		return {
+			moves: this.#players.totalMovesPlayed(),
+			isGameOver: this.#isGameOver,
+			validMove: this.#validMove,
+			currentPlayer: this.#players.currentPlayer(),
+			endState: this.#endState,
+		};
 	}
 
-	playedMove(number) {
-		if (number in boardNumberLookup) {
-			this.#updateBoard(...boardNumberLookup[number]);
+	movePlayed(move) {
+		if (move in this.#players.totalMovesPlayed()) {
+			this.#validMove = false;
+			return;
 		}
+
+		this.#players.registerMove(move);
+		this.#validMove = true;
+		this.#noOfTurns++;
+
+		if (this.#areTurnsOver()) {
+			this.#isGameOver = true;
+			this.#endState = "draw";
+			return;
+		}
+
+		if (this.#players.hasWon()) {
+			this.#isGameOver = true;
+			this.#endState = "win";
+			return;
+		}
+
+		this.#players.changeTurn();
 	}
 }
 

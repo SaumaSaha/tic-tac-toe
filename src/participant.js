@@ -1,22 +1,30 @@
 class Participant {
 	#name;
 	#icon;
+	#movesPlayed;
 
 	constructor(name, icon) {
 		this.#name = name;
 		this.#icon = icon;
+		this.#movesPlayed = new Set();
 	}
 
-	get name() {
+	name() {
 		return this.#name;
 	}
 
-	get icon() {
-		return this.#icon;
+	movePlayed(number) {
+		this.#movesPlayed.add(number);
 	}
 
-	changeName(name) {
-		this.#name = name;
+	playedMoves() {
+		return [...this.#movesPlayed].map((move) => [move, this.#icon]);
+	}
+
+	hasPlayed(moves) {
+		return moves.every((move) => {
+			return this.#movesPlayed.has(move);
+		});
 	}
 }
 
