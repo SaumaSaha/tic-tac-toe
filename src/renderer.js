@@ -7,8 +7,8 @@ class GameRenderer {
 		}
 		if (endState === "draw") message = `Game Draw!!!`;
 		if (endState === "win") message = `${currentPlayer} WON!!!`;
-
 		if (!validMove) message += "\nInvalid Move!!!";
+    
 		console.clear();
 		renderer(styler(grid));
 		renderer(message);
